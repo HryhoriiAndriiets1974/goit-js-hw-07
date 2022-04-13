@@ -21,6 +21,11 @@ galleryItems.forEach((elem) => {
   gallery.onclick = e => {
     e.preventDefault();
     if (e.target.nodeName !== 'IMG') {return;}
-    basicLightbox.create(`
-    <img src="${e.target.closest("a").href}">`).show();
+    const instance = basicLightbox.create(`
+    <img src="${e.target.closest("a").href}">`);
+    instance.show();
+    // close key Escape
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") instance.close();
+    });
   }
