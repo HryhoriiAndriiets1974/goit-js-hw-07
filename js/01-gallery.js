@@ -11,21 +11,28 @@ galleryItems.forEach((elem) => {
          <img
           class="gallery__image"
           src="${elem.preview}"
-          data-source="${elem.preview}"
+          data-source="${elem.original}"
           alt="${elem.description}"
          />
         </a>
       </div>`);
   });
 // модалка
+const instance = basicLightbox.create(`
+<img class="modal" src="">`,
+{
+  onShow: (instance) => {
+    window.addEventListener('keydown', onEscape);},}, {
+  onClose: (instance) => {
+    window.removeEventListener('keydown', onEscape);
+  },},
+  );
   gallery.onclick = e => {
     e.preventDefault();
     if (e.target.nodeName !== 'IMG') {return;}
-    const instance = basicLightbox.create(`
-    <img src="${e.target.closest("a").href}">`);
+    instance.element().querySelector('.modal').src = e.target.dataset.source;
     instance.show();
-    // close key Escape
-    document.addEventListener("keydown", function(e) {
-      if (e.key === "Escape") instance.close();
-    });
+  }
+  function onEscape(e) {
+  if (e.key === "Escape") instance.close();
   }
